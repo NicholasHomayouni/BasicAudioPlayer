@@ -1,29 +1,33 @@
 #include "MainComponent.h"
 
 //==============================================================================
-MainComponent::MainComponent()
+// STEP 2
+// Initialize constructor with a string name (button) (an initializer list)
+MainComponent::MainComponent() : openButton("Open")
 {
     setSize (200, 100);
+    // no input channels, so set to 0
+    setAudioChannels (0, 2);
     
-
-    // Some platforms require permissions to open input channels so request that here
-    if (juce::RuntimePermissions::isRequired (juce::RuntimePermissions::recordAudio)
-        && ! juce::RuntimePermissions::isGranted (juce::RuntimePermissions::recordAudio))
-    {
-        juce::RuntimePermissions::request (juce::RuntimePermissions::recordAudio,
-                                           [&] (bool granted) { setAudioChannels (granted ? 2 : 0, 2); });
-    }
-    else
-    {
-        // Specify the number of input and output channels that we want to open
-        setAudioChannels (0, 2);
-    }
+    //STEP 4
+    // Capture event when button is clicked using lambda
+    // call function when clicked
+    openButton.onClick = [this] { openButtonClicked(); };
+    
+    // Add as a child component of MainComponent
+    addAndMakeVisible(&openButton);
 }
 
 MainComponent::~MainComponent()
 {
     // This shuts down the audio device and clears the audio source.
     shutdownAudio();
+}
+
+//STEP 5
+void MainComponent::openButtonClicked()
+{
+    DBG("clicked"); // when open button is clicked, will console out "clicked"
 }
 
 //==============================================================================
@@ -68,7 +72,7 @@ void MainComponent::paint (juce::Graphics& g)
 
 void MainComponent::resized()
 {
-    // This is called when the MainContentComponent is resized.
-    // If you add any child components, this is where you should
-    // update their positions.
+    // STEP 3
+    //Set bounds
+    openButton.setBounds(10, 10, getWidth() -20, 30);
 }

@@ -24,7 +24,13 @@ public:
     void resized() override;
 
 private:
+    // STEP 5
+    // Now we need a function to be called when the button gets clicked. It will define what happens when clicked.
+    void openButtonClicked();
     
+    // STEP 1
+    // Use TextButton class for handling events when user clicks on button
+    juce::TextButton openButton;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
